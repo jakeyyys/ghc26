@@ -1,3 +1,6 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// GHC 2026 — Scroll reveal / IntersectionObserver v1
+// ─────────────────────────────────────────────────────────────────────────────
 (function(){
   try {
     var els = document.querySelectorAll('[data-reveal]');
