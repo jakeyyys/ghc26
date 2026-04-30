@@ -1,3 +1,6 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// GHC 2026 — Stories carousel v1
+// ─────────────────────────────────────────────────────────────────────────────
   (function() {
     var carouselInited = false;
 
@@ -20,7 +23,7 @@
 
       function start() {
         clearInterval(timer);
-        timer = setInterval(function() { go(idx + 1); }, 10000);
+        timer = setInterval(function() { go(idx + 1); }, 15000);
       }
 
       var prevBtn = document.querySelector('.carousel-prev');
