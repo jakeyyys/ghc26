@@ -1,3 +1,6 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// GHC 2026 — Share modal / fallback links v1
+// ─────────────────────────────────────────────────────────────────────────────
   (function() {
     var donateShareModalInited = false;
     var copiedTimer = null;
