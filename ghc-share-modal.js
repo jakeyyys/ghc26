@@ -57,7 +57,7 @@
       var modalOverlay = getModalOverlay();
       var modalContent = getModalContent();
       if (!modal || !modalOverlay || !modalContent) return;
-      modalContent.innerHTML = '<img class="modal-img" src="' + modal.img + '" alt="' + modal.name + '" onerror="this.style.display=\'none\'"><h3 style="color:' + modal.colour + ';">' + modal.name + '</h3><p>' + modal.body + "</p>";
+      modalContent.innerHTML = (modal.img ? '<img class="modal-img" src="' + modal.img + '" alt="' + modal.name + '" onerror="this.style.display=\'none\'">' : '') + '<h3 style="color:' + modal.colour + ';">' + modal.name + '</h3><p>' + modal.body + "</p>";
       modalOverlay.classList.add("is-open");
       document.body.style.overflow = "hidden";
     }
