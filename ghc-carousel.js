@@ -2,16 +2,16 @@
 // GHC 2026 — Stories carousel v1
 // ─────────────────────────────────────────────────────────────────────────────
   (function() {
-    var carouselInited = false;
+    let carouselInited = false;
 
     function initCarousel() {
       if (carouselInited) return;
 
-      var track = document.querySelector('.stories-track');
-      var dots  = document.querySelectorAll('.carousel-dot');
-      var cards = document.querySelectorAll('.story-card');
-      var total = cards.length;
-      var idx = 0, timer;
+      const track = document.querySelector('.stories-track');
+      const dots  = document.querySelectorAll('.carousel-dot');
+      const cards = document.querySelectorAll('.story-card');
+      const total = cards.length;
+      let idx = 0, timer;
       if (!track || !total) return;
       carouselInited = true;
 
@@ -26,8 +26,8 @@
         timer = setInterval(function() { go(idx + 1); }, 15000);
       }
 
-      var prevBtn = document.querySelector('.carousel-prev');
-      var nextBtn = document.querySelector('.carousel-next');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
       if (prevBtn) prevBtn.addEventListener('click', function() { go(idx - 1); start(); });
       if (nextBtn) nextBtn.addEventListener('click', function() { go(idx + 1); start(); });
       Array.prototype.forEach.call(dots, function(d, i) {
