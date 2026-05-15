@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // GHC 2026 — Fundraiser idea generator v1
 // ─────────────────────────────────────────────────────────────────────────────
+(function() {
 const IDEAS = (typeof GHC_IDEAS !== 'undefined' && Array.isArray(GHC_IDEAS)) ? GHC_IDEAS : [];
 
 
@@ -8,7 +9,7 @@ const IDEAS = (typeof GHC_IDEAS !== 'undefined' && Array.isArray(GHC_IDEAS)) ? G
 
   function getRandomIndex() {
     let idx;
-    do { idx = Math.floor(Math.random() * IDEAS.length); } while (idx === lastIndex && IDEAS.length > 1);
+    do { const arr = new Uint32Array(1); crypto.getRandomValues(arr); idx = arr[0] % IDEAS.length; } while (idx === lastIndex && IDEAS.length > 1);
     return idx;
   }
 
@@ -68,7 +69,8 @@ const IDEAS = (typeof GHC_IDEAS !== 'undefined' && Array.isArray(GHC_IDEAS)) ? G
     setTimeout(function() {
       const titleEl = document.getElementById("ideaTitle");
       if (titleEl && titleEl.textContent.trim() === "Loading...") {
-        titleEl.innerHTML = 'Loading... &nbsp;<a href="javascript:location.reload()" style="font-size:0.78rem;font-weight:600;color:#C8102E;text-decoration:underline;text-underline-offset:2px;">Refresh page</a>';
+        titleEl.innerHTML = 'Loading... &nbsp;<a href="#" onclick="event.preventDefault();location.reload();" style="font-size:0.78rem;font-weight:600;color:#C8102E;text-decoration:underline;text-underline-offset:2px;">Refresh page</a>';
       }
     }, 3000);
   })();
+})();
