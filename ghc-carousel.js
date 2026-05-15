@@ -11,7 +11,8 @@
       const dots  = document.querySelectorAll('.carousel-dot');
       const cards = document.querySelectorAll('.story-card');
       const total = cards.length;
-      let idx = 0, timer;
+      let idx = 0;
+      let timer;
       if (!track || !total) return;
       carouselInited = true;
 
