@@ -6,23 +6,50 @@
     const els = document.querySelectorAll('[data-reveal]');
     if (!els.length) return;
 
-    function each(nodes, cb) {
-      Array.prototype.forEach.call(nodes, cb);
-    }
-
-    function isInViewport(el) {
-      const rect = el.getBoundingClientRect();
-      const viewH = window.innerHeight || document.documentElement.clientHeight;
-      const viewW = window.innerWidth || document.documentElement.clientWidth;
-      return rect.bottom > 0 && rect.right > 0 && rect.top < viewH && rect.left < viewW;
-    }
-
     function revealNow(el) {
       el.classList.add('is-visible');
     }
 
     function revealAllNow() {
-      each(els, revealNow);
+      for (const el of els) revealNow(el);
+    }
+
+    function revealHashTarget() {
+      if (!window.location.hash) return;
+      let hashTarget = null;
+      try {
+        hashTarget = document.querySelector(window.location.hash);
+      } catch (_) {
+        hashTarget = null;
+      }
+      if (!hashTarget) return;
+      const revealParent = typeof hashTarget.closest === 'function' ? hashTarget.closest('[data-reveal]') : null;
+      if (revealParent) revealNow(revealParent);
+    }
+
+    function initObserver() {
+      if (!('IntersectionObserver' in window)) {
+        revealAllNow();
+        return;
+      }
+      const io = new IntersectionObserver(function(entries) {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' });
+      for (const el of els) {
+        if (!el.classList.contains('is-visible')) io.observe(el);
+      }
+      setTimeout(function() {
+        for (const el of document.querySelectorAll('[data-reveal]')) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.transition = 'none';
+        }
+      }, 900);
     }
 
     // Baseline safety: never leave content hidden if observers fail.
@@ -32,31 +59,9 @@
     }
     window.addEventListener('load', revealAllNow, { once: true });
 
-    if (window.location.hash) {
-      let hashTarget = null;
-      try {
-        hashTarget = document.querySelector(window.location.hash);
-      } catch (err) {
-        hashTarget = null;
-      }
-      if (hashTarget) {
-        const revealParent = typeof hashTarget.closest === "function" ? hashTarget.closest('[data-reveal]') : null;
-        if (revealParent) revealNow(revealParent);
-      }
-    }
+    revealHashTarget();
+    initObserver();
 
-    if (!('IntersectionObserver' in window)) {
-      revealAllNow();
-      return;
-    }
-
-    const io = new IntersectionObserver(function(entries){
-      each(entries, function(e){ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); }});
-    }, {threshold: 0.01, rootMargin: '0px 0px -8% 0px'});
-    each(els, function(el){
-      if (!el.classList.contains('is-visible')) io.observe(el);
-    });
-    setTimeout(function(){const n=document.querySelectorAll('[data-reveal]');for(let i=0;i<n.length;i++){n[i].style.opacity='1';n[i].style.transform='none';n[i].style.transition='none';}},900);
   } catch (err) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-reveal]'), function(el) {
       el.classList.add('is-visible');
